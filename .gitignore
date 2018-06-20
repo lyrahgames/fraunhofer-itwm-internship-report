@@ -1,8 +1,12 @@
 *
 !*/
 
-!*.tex
 !itwm_profile/*.jpg
+
+!report/code/*.cc
+!report/images/*.pdf
+
+!*.tex
 
 !.gitignore
 !.gitmodules

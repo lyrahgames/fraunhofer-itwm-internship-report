@@ -2,6 +2,7 @@
 !*/
 
 !*.tex
+!itwm_profile/*.jpg
 
 !.gitignore
 !.gitmodules

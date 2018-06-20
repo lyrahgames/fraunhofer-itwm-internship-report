@@ -1,0 +1,57 @@
+\documentclass[crop=false]{standalone}
+\usepackage{standard}
+
+\begin{document}
+  \section{Werkzeuge und Entwicklungsumgebung} % (fold)
+  \label{sec:Werkzeuge und Entwicklungsumgebung}
+
+  Ein wesentlicher Bestandteil für die Bearbeitung der Aufgabenstellungen war die Einrichtung einer passenden Entwicklungsumgebung.
+  Diese sollte einen effizienten Arbeitsfluss ermöglichen und die Zusammenarbeit mit anderen Teams vereinfachen.
+  Hierfür verwendete ich sowohl Methoden, die ich durch meine Tätigkeit am Fraunhofer ITWM erlangte, als auch Herangehensweisen, welche mir aus Vorlesungen bekannt waren.
+
+  \subsection{Git} % (fold)
+  \label{sub:git}
+    Ein typisches Werkzeug für eine Entwicklungsumgebung ist ein Versionskontrollsystem (VCS).
+    Es protokolliert die Änderungen gegebener Dateien im Verlauf der Zeit.
+    Auf jeden protokollierten Zeitpunkt kann zugegriffen werden, sodass auch nach dem Löschen von Informationen diese immer noch abrufbar sind.
+    Ein VCS stellt damit eine effiziente Alternative des herkömmlichen Backups dar.
+    Die Aufgabe des VCS übernahm in meinen Projekten Git.
+    Es ist ein verteiltes Open-Source-VCS, welches durch seine Arbeitsweise verschiedene Vorteile gegenüber anderen Systemen aufweist.
+
+    Mit Git erstellte für jedes meiner Projekte ein sogenanntes Repository.
+    Um diese auf mehreren Rechnersystemen bearbeiten zu können, verwendete ich die bekannten öffentlichen Git-Server GitHub und GitLab.
+
+    Um anderen Entwicklern das Verstehen meiner geleisteten Arbeit zu vereinfachen, strukturierte ich mein Projekt nach festen Regeln.
+    Commit-Nachrichten in Git mussten ein spezielles Format aufweisen, sodass die Bedeutung der protokollierten Zeitpunkte nach außen getragen werden konnte%
+    \footnote{https://chris.beams.io/posts/git-commit/}.
+    Durch Git bereit gestellte Branches sollten nur auf spezielle Weise verwendet werden.
+    Dies verhinderte ungewollte Fehler, die im Normalfall bei der Zusammenführung verschiedener Arbeiten entstehen.
+    Ich richtete mich hier vor allem nach dem bekannten git-flow-Modell%
+    \footnote{http://nvie.com/posts/a-successful-git-branching-model/}, %
+    bei welchem die Entwicklung auf einer Develop-Branch und mehreren Feature-Branches vollzogen wird und nur bei Veröffentlichungen von neuen Versionen Master- und Release-Branches verwendet werden.
+  % subsection git (end)
+
+
+  \subsection{CMake} % (fold)
+  \label{sub:cmake}
+    Die Verwendung unterschiedlicher Hardware und Betriebssysteme stellt häufig ein Hindernis bei der Entwicklung robusten Quellcodes dar.
+    Aus diesem Grund verwendete ich innerhalb meiner Projekte CMake.
+    Es ist ein Build-System-Generator.
+    Durch die Ausführung von CMake wird ein entsprechendes Build-System konfiguriert, welches sich dem zugrundeliegenden Rechnersystem anpasst.
+    Das erzeugte Build-System ist in der Lage den Quellcode mit seinen Abhängigkeiten zu kompilieren und auch zu testen.
+    Mittlerweile stellt es eines der Standardwerkzeuge für jeden C- und C++-Programmierer dar.
+
+    Um auch hier für andere Entwickler eine feste Struktur beizubehalten, stützte ich mich für das Schreiben von CMake-Dateien auf die zugehörige Dokumentation.
+    Somit konnte ich moderne Standards lernen und anwenden.
+    Die CMake-Dateien beschrieben dadurch immer die benötigten Anforderungen, um den Quelltext fehlerfrei zu kompilieren.
+  % subsection cmake (end)
+
+  \subsection{C/C++-Compiler} % (fold)
+  \label{sub:c_c_compiler}
+    Natürlich wird für die Kompilierung von Quellcode auch ein entsprechender Compiler benötigt.
+    Das Ziel war es, den geschriebenen Code mit verschiedenen Compilern, wie zum Beispiel GCC, Clang und Intel, übersetzen zu können.
+    Dies sollte sicherstellen, dass innerhalb des Quelltextes keine Compiler-internen Konstrukte verwendet wurden, die auf anderen Systemen vielleicht nicht existierten.
+  % subsection c_c_compiler (end)
+
+  % section entwicklungsumgebung (end)
+\end{document}

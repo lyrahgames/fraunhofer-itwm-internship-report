@@ -78,9 +78,32 @@
   \subsection{C/C++-Compiler} % (fold)
   \label{sub:c_c_compiler}
     Natürlich wird für die Kompilierung von Quellcode auch ein entsprechender Compiler benötigt.
-    Das Ziel war es, den geschriebenen Code mit verschiedenen Compilern, wie zum Beispiel GCC, Clang und Intel, übersetzen zu können.
+    Das Ziel war es, den geschriebenen Code mit verschiedenen Compilern, wie zum Beispiel \textit{GCC}, \textit{Clang} und dem \textit{Intel C++ Compiler}, übersetzen zu können.
     Dies sollte sicherstellen, dass innerhalb des Quelltextes keine Compiler-internen Konstrukte verwendet wurden, die auf anderen Systemen vielleicht nicht existierten.
   % subsection c_c_compiler (end)
+
+  \subsection{Weitere Hilfsmittel} % (fold)
+  \label{sub:weitere_hilfsmittel}
+    Um Quelltext zu kreieren wird ein Texteditor oder sogar eine integrierte Entwicklungsumgebung (IDE, engl.: \textit{integrated development environment}) benötigt.
+    Ich verwendete den Editor \textit{Sublime Text}, der als eine Mischung zwischen Texteditor und IDE angesehen werden kann.
+    Er bietet viele Funktionalitäten einer IDE, arbeitet jedoch effizienter durch seine geringere Nutzung des Arbeitsspeichers.
+    Zudem erlaubt \textit{Sublime Text} durch eine eigene Paketverwaltung das Installieren weiterer Funktionalitäten.
+    Abbildung \ref{fig:sublime-text-example} zeigt \textit{Sublime Text} im Einsatz.
+    \begin{figure}
+      \center
+      \includegraphics[width=0.8\textwidth]{images/sublime_text_example.png}
+      \caption{%
+        Die Abbildung zeigt den Editor \textit{Sublime Text} mit dem hier bearbeiteten Projekt.
+        Die linke Seite zeigt die sogenannte \textit{Sidebar} mit dem Verzeichnisbaum des Projekts.
+      }
+      \label{fig:sublime-text-example}
+    \end{figure}
+
+    Das Schreiben von Quelltext beinhaltet auch die Formatierung dessen.
+    Eines der größten Probleme in der Softwareentwicklung besteht darin, fremden Quelltext zu lesen und zu verstehen.
+    Durch \textit{Style Guides} werden dem Programmierer Orientierungshilfen für die Formatierung des Codes und die Beantwortung von Stilfragen geboten.
+    Die Verwendung von \textit{Style Guides} ermöglicht ein besseres Code-Verständnis innerhalb einer Projektgruppe.
+  % subsection weitere_hilfsmittel (end)
 
   % section entwicklungsumgebung (end)
 \end{document}

@@ -1,0 +1,8 @@
+# Eckpunkte
+v   <x> <y> <z>
+
+# Normalen
+vn  <x> <y> <z>
+
+# Dreiecke mit
+f   <v id>//<vn id> <v id>//<vn id> <v id>//<vn id>

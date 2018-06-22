@@ -4,6 +4,7 @@
 !itwm_profile/*.jpg
 
 !report/code/*.cc
+!report/code/*.obj
 !report/images/*.pdf
 !report/images/*.png
 

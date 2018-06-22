@@ -11,7 +11,7 @@
 
   \subsection{Versionsverwaltung mit Git} % (fold)
   \label{sub:git}
-    Ein typisches Werkzeug für eine Entwicklungsumgebung ist ein Versionskontrollsystem (VCS).
+    Ein typisches Werkzeug für eine Entwicklungsumgebung ist ein Versionskontrollsystem (VCS, engl.: \textit{version control system}).
     Es protokolliert die Änderungen gegebener Dateien im Verlauf der Zeit.
     Auf jeden protokollierten Zeitpunkt (engl.: \textit{commit}) kann zugegriffen werden, sodass auch nach dem Löschen von Informationen diese immer noch abrufbar sind.
     Ein VCS stellt damit eine effiziente Alternative des herkömmlichen Backups dar.
@@ -51,7 +51,7 @@
       \includegraphics[width=0.7\textwidth]{images/git_flow_example.png}
       \caption{%
         Die Abbildung zeigt ein Beispiel für die Anwendung des git-flow-Modells anhand eines durch \textit{GitLab} erstellten Graphen.
-        Es handelt sich um die reale Entwicklungsgeschichte (engl.: \textit{History}) des hier behandelten Projekts.
+        Es handelt sich um die reale Entwicklungsgeschichte (engl.: \textit{history}) des hier behandelten Projekts.
         Jeder mit Text beschriftete Eintrag stellt einen protokollierten Zeitpunkt dar.
         Der Graph auf der linken Seite zeigt den zugehörigen Verzweigungsbaum (engl.: \textit{commit tree}).
       }
@@ -86,9 +86,12 @@
   \label{sub:weitere_hilfsmittel}
     Für das Kreieren von Quellcode ist die Verwendung eines Texteditors oder sogar einer integrierten Entwicklungsumgebung (IDE, engl.: \textit{integrated development environment}) unumgänglich.
     Die Wahl eines Editors basiert auf den persönlichen Erfahrungen und Vorlieben des Entwicklers.
-    Um eine effiziente Arbeitsweise zu ermöglichen, verwendete ich den Editor \textit{Sublime Text}%
+    Ich entschied mich für den Editor \textit{Sublime Text}%
     \footnote{https://www.sublimetext.com}, der als eine Mischung zwischen Texteditor und IDE angesehen werden kann.
-    Abbildung \ref{fig:sublime-text-example} zeigt \textit{Sublime Text} im Einsatz.
+    \textit{Sublime Text} kann unentgeltlich benutzt werden.
+    Er ist zudem Tastatur fixiert, extrem konfigurierbar und durch seine eigene Paketverwaltung beliebig erweiterbar.
+    Zuvor konnte ich \textit{Sublime Text} bereits in anderen Projekten verwenden, wobei dieser einen positiven Eindruck hinterließ.
+    In Abbildung \ref{fig:sublime-text-example} ist ein Screenshot von \textit{Sublime Text} im \textit{Distraction-Free-Mode} gezeigt.
     \begin{figure}
       \center
       \includegraphics[width=0.8\textwidth]{images/sublime_text_example.png}
@@ -99,10 +102,15 @@
       \label{fig:sublime-text-example}
     \end{figure}
 
-    Das Schreiben von Quelltext beinhaltet auch die Formatierung dessen.
     Eines der größten Probleme in der Softwareentwicklung besteht darin, fremden Quelltext zu lesen und zu verstehen.
     Durch \textit{Style Guides} werden dem Programmierer Orientierungshilfen für die Formatierung des Codes und die Beantwortung von Stilfragen geboten.
-    Die Verwendung von \textit{Style Guides} ermöglicht ein besseres Code-Verständnis innerhalb einer Projektgruppe.
+    Die Verwendung von \textit{Style Guides} ermöglicht ein konsistentes Code-Design innerhalb einer Projektgruppe und resultiert außerdem in lesbarem strukturierten Quelltext.
+    Ich hielt mich in fast allen Punkten an den \textit{Google C++ Style Guide}%
+    \footnote{https://google.github.io/styleguide/cppguide.html}.
+    Durch das Programm \textit{ClangFormat}%
+    \footnote{https://clang.llvm.org/docs/ClangFormat.html}
+    war es mir möglich den Quelltext nicht manuell zu bearbeiten, sondern automatisch durch den Computer formatieren zu lassen.
+    Des Weiteren existierte ein Paket für \textit{Sublime Text}, welches sicher stellte, dass \textit{ClangFormat} nach dem Speichern einer Quelldatei auch auf diese angewendet wurde.
   % subsection weitere_hilfsmittel (end)
 
   % section entwicklungsumgebung (end)

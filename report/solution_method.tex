@@ -43,7 +43,7 @@
         Alle Koordinaten wurden mit einfacher Genauigkeit in dem Gleitkommatyp \texttt{float} und alle Referenzen auf Eckpunkte oder Normalen im Ganzzahltyp \texttt{int} gespeichert.
       % subsubsection einlesen_der_daten (end)
 
-      \subsubsection{Ausgabe} % (fold)
+      \subsubsection{Grafische Ausgabe} % (fold)
       \label{ssub:ausgabe}
         Für die graphische Ausgabe wurde die Bibliothek OpenGL zusammen mit dem Framework GLUT verwendet.
         GLUT erstellt einen OpenGL-Context und dient auch als Window-Manager.
@@ -72,7 +72,7 @@
 
       \subsubsection{Performance-Analyse} % (fold)
       \label{ssub:performance_analyse}
-        Damit die Effizienz der Algorithmen objektiv miteinander verglichen werden konnte, wurde die mittlere Zeitspanne zum Erstellen eines Bildes (Frame) für jeden Algorithmus gemessen.
+        Damit die Effizienz der Algorithmen objektiv miteinander verglichen werden konnte, wurde die mittlere Zeitspanne zum Erstellen eines Bildes (engl.: \textit{Frame}) für jeden Algorithmus gemessen.
         Das Reziproke dieser Messgröße wird in der Literatur auch als \textit{frames per second} (FPS) bezeichnet.
         Hierfür wurde innerhalb einer festgelegten Zeitspanne (in der Regel 5 Sekunden) gemessen, wie oft der Pixel Puffer neu berechnet und ausgegeben wurde.
         Der Quotient aus der gesamten Zeitspanne und der Anzahl der erzeugten Frames ist dann die mittlere Zeit, die zur Berechnung des Pixel Puffers benötigt wird.
@@ -98,7 +98,7 @@
       Existieren mehrere Schnittpunkte, so wird derjenige ausgewählt, der der Kamera am nächsten ist.
       \begin{figure}
         \center
-        \includegraphics{images/ray_tracing_scheme.pdf}
+        \includegraphics[width=0.8\textwidth]{images/ray_tracing_scheme.pdf}
         \caption{%
           Die Skizze stellt das Raytracing-Verfahren dar.
           Bezüglich eines Beobachtungspunktes $o$ wird durch jeden Pixel eines virtuellen Bildschirms $\mathrm{VS}$ ein Strahl geschossen.
@@ -110,12 +110,21 @@
 
       Für die Implementierung wurde das Einlesen der Szene als Liste von Dreiecken wie in Abschnitt \ref{ssub:einlesen_der_daten} realisiert.
       Die Kamera konnte mithilfe einer Klasse dargestellt werden.
-      In der folgenden Abbildung HIERGROßEFETTEABBILDUNGEINFÜGEN ist die Bedeutung der einzelnen Parameter skizziert.
-      Die Position und Ausrichtung der Kamera wurde durch eine positiv orientierte affine Basis im $R^3$ beschrieben.
+      In der folgenden Abbildung \ref{fig:camera-scheme} ist die Bedeutung der einzelnen Parameter skizziert.
+      \begin{figure}
+        \center
+        \includegraphics[width=0.8\textwidth]{images/camera_scheme.pdf}
+        \caption{%
+          Die Abbildung veranschaulicht die Parameter der Klasse \texttt{Camera} anhand einer Skizze.
+          Das Tupel $\roundBrackets{e_0,\set{e_1,e_2,e_3}{}}$ beschreibt die affine Basis, $n_\mathrm{w}$ und $n_\mathrm{h}$ die Breite und die Höhe des virtuellen Bildschirms in Pixeln und $α$ den Öffnungswinkel (engl.: \textit{field of view}).
+        }
+        \label{fig:camera-scheme}
+      \end{figure}
+      Die Position und Ausrichtung der Kamera wurde durch eine positiv orientierte affine Basis im $\setReal^3$ beschrieben.
       Der erste Basisvektor zeigt in die Richtung, die für die Kamera als rechts definiert ist.
       Analoges gilt für den zweiten und dritten Basisvektor bezüglich den Richtungen oben und hinten.
       Der zu einer Kamera gehörige virtuelle Bildschirm wurde durch die Anzahl seiner Pixel $n_\mathrm{w}$ und $n_\mathrm{h}$ in der Breite und Höhe charakterisiert.
-      Die Entfernung zur Kamera wurde durch den Öffnungswinkel $\alpha$, unter dem die Höhe des Bildschirms von der Kamera aus zu sehen ist, angegeben.
+      Die Entfernung zur Kamera wurde durch den Öffnungswinkel $\alpha$ (engl.: \textit{field of view}), unter dem die Höhe des Bildschirms von der Kamera aus zu sehen ist, angegeben.
       Weitere Größen wie die Kantenlänge $p$ eines Pixels im Raum oder das Seitenverhältnis $a$ des virtuellen Bildschirms lassen sich aus den bereits definierten Größen eindeutig berechnen.
       \[
         p = \frac{2\tan \frac{\alpha}{2}}{n_\mathrm{h}}
@@ -125,7 +134,7 @@
 
       Die von der Kamera ausgesendeten Primärstrahlen mussten auf Schnittpunkte mit der Szene getestet werden.
       Für jeden Strahl wurden hierfür mithilfe des Möller-Trumbore-Verfahrens die Schnittpunkte mit allen Dreiecken der Szene berechnet.
-      Um das genannte Verfahren genauer zu erklären, seien $A,B,C\in R^3$ die Eckpunkte eines Dreiecks, wobei gilt, dass die Menge $\left\{ B-A,C-A \right\}$ linear unabhängig ist.
+      Um das genannte Verfahren genauer zu erklären, seien $A,B,C\in \setReal^3$ die Eckpunkte eines Dreiecks, wobei gilt, dass die Menge $\left\{ B-A,C-A \right\}$ linear unabhängig ist.
       Wie sich leicht überprüfen lässt, lassen sich alle Punkte des Dreiecks durch die folgende Parametrisierung beschreiben.
       \begin{align*}
         &M \coloneqq \left\{ (u,v)\in [0,1]^2 \ \middle|\ u+v \leq 1 \right\} \\

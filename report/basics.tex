@@ -9,7 +9,7 @@
     Jeder dieser Strahlen wird dann mit der Szene auf Schnittpunkte getestet.
     Existiert ein Schnittpunkt, so wird dieser durch weitere Algorithmen dargestellt.
     Existieren mehrere Schnittpunkte, so wird derjenige ausgewählt, der der Kamera am nächsten ist.
-    \begin{figure}
+    \begin{figure}[h]
       \center
       \includegraphics[width=0.8\textwidth]{images/ray_tracing_scheme.pdf}
       \caption{%
@@ -26,7 +26,7 @@
       Für die Implementierung wurde das Einlesen der Szene als Liste von Dreiecken wie in Abschnitt \ref{ssub:einlesen_der_daten} realisiert.
       Die Kamera konnte mithilfe einer Klasse dargestellt werden.
       In der folgenden Abbildung \ref{fig:camera-scheme} ist die Bedeutung der einzelnen Parameter skizziert.
-      \begin{figure}
+      \begin{figure}[h]
         \center
         \includegraphics[width=0.8\textwidth]{images/camera_scheme.pdf}
         \caption{%
@@ -40,11 +40,11 @@
       Analoges gilt für den zweiten und dritten Basisvektor bezüglich den Richtungen oben und hinten.
       Der zu einer Kamera gehörige virtuelle Bildschirm wurde durch die Anzahl seiner Pixel $n_\mathrm{w}$ und $n_\mathrm{h}$ in der Breite und Höhe charakterisiert.
       Die Entfernung zur Kamera wurde durch den Öffnungswinkel $\alpha$ (engl.: \textit{field of view}), unter dem die Höhe des Bildschirms von der Kamera aus zu sehen ist, angegeben.
-      Weitere Größen wie die Kantenlänge $p$ eines Pixels im Raum oder das Seitenverhältnis $a$ des virtuellen Bildschirms lassen sich aus den bereits definierten Größen eindeutig berechnen.
+      Weitere Größen wie die Kantenlänge $p$ eines Pixels im Raum oder das Seitenverhältnis $r$ des virtuellen Bildschirms lassen sich aus den bereits definierten Größen eindeutig berechnen.
       \[
         p = \frac{2\tan \frac{\alpha}{2}}{n_\mathrm{h}}
         \qquad
-        a = \frac{n_\mathrm{w}}{n_\mathrm{h}}
+        r = \frac{n_\mathrm{w}}{n_\mathrm{h}}
       \]
     % subsection aufbau_der_kamera (end)
 
@@ -55,17 +55,19 @@
       Um das genannte Verfahren genauer zu erklären, seien $A,B,C\in \setReal^3$ die Eckpunkte eines Dreiecks, wobei gilt, dass die Menge $\left\{ B-A,C-A \right\}$ linear unabhängig ist.
       Wie sich leicht überprüfen lässt, lassen sich alle Punkte des Dreiecks durch die folgende Parametrisierung beschreiben.
       \begin{align*}
-        &M \coloneqq \left\{ (u,v)\in [0,1]^2 \ \middle|\ u+v \leq 1 \right\} \\
-        &\varphi\colon M\to \mathds{R}^3 \qquad \varphi(u,v)\coloneqq (1-u-v)A + uB + vC
+        &M \define \set{ (u,v)\in [0,1]^2 }{ u+v \leq 1 } \\
+        &\function{\varphi}{M}{\mathds{R}^3}
+        \separate
+        \varphi(u,v)\define (1-u-v)A + uB + vC
       \end{align*}
       Die Koordinaten $u$, $v$ und $1-u-v$ werden auch als die baryzentrischen Koordinaten eines Dreiecks bezeichnet.
-      Weiterhin nehmen wir an, dass der Strahl durch die folgende Funktion, den Ursprung $o\in\mathds{R}^3$ und die Richtung $d\in\mathds{R}^3\setminus\{0\}$ beschrieben wird.
+      Weiterhin nehmen wir an, dass ein Strahl durch die folgende Funktion $r$, den Ursprung $o\in\mathds{R}^3$ und die Richtung $d\in\mathds{R}^3\setminus\{0\}$ beschrieben wird.
       \[
-        r\colon [0,\infty) \to \mathds{R}^3
-        \qquad
-        r(t) \coloneqq o + td
+        \function{r}{[0,\infty)}{\mathds{R}^3}
+        \separate
+        r(t) \define o + td
       \]
-      Für einen Schnittpunkt müssen die baryzentrischen Koordinaten des Dreiecks den gleichen Punkt im Raum wie die Parametrisierung des Strahls beschreiben.
+      Für einen Schnittpunkt zwischen Strahl und Dreieck muss die folgende Gleichung für s$(u,v)\in M$ und $t\in[0,\infty)$ erfüllt sein.
       \[
         o + td = A + (B-A)u + (C-A)v
       \]

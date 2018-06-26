@@ -67,11 +67,15 @@
         \separate
         r(t) \define o + td
       \]
-      Für einen Schnittpunkt zwischen Strahl und Dreieck muss die folgende Gleichung für s$(u,v)\in M$ und $t\in[0,\infty)$ erfüllt sein.
+      Für einen Schnittpunkt zwischen Strahl und Dreieck muss die folgende Gleichung für $(u,v)\in M$ und $t\in[0,\infty)$ erfüllt sein.
+      \[
+        r(t) = φ(u,v)
+      \]
+      Zur Lösung dieser Gleichung setzt man zunächst die Parametrisierungen von Strahl und Dreieck ein.
       \[
         o + td = A + (B-A)u + (C-A)v
       \]
-      Durch Umbenennung lässt sich diese Gleichung etwas vereinfachen.
+      Durch Umbenennung der konstanten Vektoren lässt sich diese Gleichung in einer übersichtlicheren Form darstellen.
       \[
         e_0 = ue_1 + ve_2 - td
       \]
@@ -83,6 +87,7 @@
         e_2 \coloneqq C-A
       \]
       Fasst man nun die Koordinaten $u$, $v$ und $t$ zu einem Vektor zusammen, so lässt sich die Gleichung sehr elegant durch ein Matrix-Vektor-Produkt formulieren.
+      Hierbei gehen wir davon aus, dass es sich bei den Vektoren $e_0$, $e_1$, $e_2$ und $d$ um Spaltenvektoren handelt.
       \[
         e_0 =
         \begin{pmatrix}
@@ -96,7 +101,11 @@
           t
         \end{pmatrix}
       \]
-      Dieses lineare Gleichungssystem ist genau dann lösbar, wenn die Determinante der Matrix ungleich Null ist.
+      Der Schnittpunkt zwischen einem Strahl und einem Dreieck kann demnach aus der Lösung eines linearen Gleichungssystems, charakterisiert durch eine $3\times 3$-Matrix, gewonnen werden.
+      Offensichtlich wird die Determinante der angegebenen Matrix genau dann Null, wenn der Strahl parallel zur Ebene des Dreiecks verläuft.
+      % Dieses lineare Gleichungssystem ist genau dann lösbar, wenn die Determinante der Matrix ungleich Null ist.
+      In diesem Falle existieren entweder keine oder unendlich viele Schnittpunkte, sodass keine Aussagen über $u$, $v$ und $t$ getroffen werden können.
+      Nimmt man nun an, dass die Matrix nicht singulär ist, so lässt sich die Gleichung durch eine Invertierung lösen.
       \[
         \begin{pmatrix}
           u \\
@@ -111,8 +120,8 @@
         \end{pmatrix}^{-1}
         e_0
       \]
-      Die inverse der Matrix lässt sich analytisch leicht durch Skalar- und Kreuzprodukte beschreiben.
-      Diese ermöglichen zudem eine effiziente Berechnung.
+      Die Inverse der Matrix lässt sich analytisch leicht durch Skalar- und Kreuzprodukte beschreiben.
+      Innerhalb des Computers ermöglicht diese Formulierung zudem eine effizientere Auswertung der Schnittpunkte.
       \[
         \begin{pmatrix}
           u \\
@@ -126,6 +135,14 @@
           \left\langle e_1\times d , e_0 \right\rangle \\
           \left\langle e_1\times e_2, e_0 \right\rangle
         \end{pmatrix}
+      \]
+      In einem letzten Schritt werden die Vektoren innerhalb der Skalar- und Kreuzprodukte zyklisch vertauscht, um die Lösung der Gleichung nur durch die Berechnung von zwei verschiedenen Kreuzprodukten zu erhalten.
+      \[
+        \begin{pmatrix}
+          u \\
+          v \\
+          t
+        \end{pmatrix}
         =
         \frac{1}{\left\langle e_1, d\times e_2  \right\rangle}
         \begin{pmatrix}
@@ -134,8 +151,9 @@
           \left\langle e_0\times e_1, e_2 \right\rangle
         \end{pmatrix}
       \]
-      Durch diese Gleichung lassen sich nun die Parameter $u$, $v$ und $t$ bestimmen.
-      Es muss überprüft werden, ob diese auch die Bedingungen der Parametrisierungen erfüllen.
+      Durch diese Gleichung lassen sich nun die Parameter $u$, $v$ und $t$ eindeutig bestimmen.
+      Abschließend muss überprüft werden, ob diese auch die Bedingungen der Parametrisierungen $(u,v)\in M$ und $t\in [0,\infty)$ erfüllen.
+      Die folgenden Ungleichungen stellen diese in vereinfachter Form dar.
       \[
         \left\langle e_1, d\times e_2  \right\rangle \neq 0
         \qquad
@@ -144,7 +162,7 @@
         u+v\leq 1
       \]
       Sind die Bedingungen erfüllt, so liegt ein Schnittpunkt vor.
-      Implementiert wurde dieser Algorithmus durch den folgenden Quelltext.
+      Eine beispielhafte Implementierung ist in dem folgenden Quelltext zu sehen.
 
       \inputCodeBlock[title=Möller-Trumbore-Algorithmus]{code/moeller_trumbore_intersection.cc}
     % subsection strahl_dreieck_schnittpunkttest (end)

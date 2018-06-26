@@ -76,6 +76,7 @@
         o + td = A + (B-A)u + (C-A)v
       \]
       Durch Umbenennung der konstanten Vektoren lässt sich diese Gleichung in einer übersichtlicheren Form darstellen.
+      Abbildung \ref{fig:ray-triangle-intersection-scheme} skizziert die Bedeutung aller bisher verwendeten Variablen.
       \[
         e_0 = ue_1 + ve_2 - td
       \]
@@ -86,6 +87,15 @@
         \qquad
         e_2 \coloneqq C-A
       \]
+      \begin{figure}[h]
+        \center
+        \includegraphics[width=0.6\textwidth]{images/ray_triangle_intersection_scheme.pdf}
+        \caption{%
+          Die Abbildung zeigt die Bedeutung der verwendeten Variablen der Schnittpunktberechnung zwischen Strahl und Dreieck anhand einer Skizze.
+        }
+        \label{fig:ray-triangle-intersection-scheme}
+      \end{figure}
+
       Fasst man nun die Koordinaten $u$, $v$ und $t$ zu einem Vektor zusammen, so lässt sich die Gleichung sehr elegant durch ein Matrix-Vektor-Produkt formulieren.
       Hierbei gehen wir davon aus, dass es sich bei den Vektoren $e_0$, $e_1$, $e_2$ und $d$ um Spaltenvektoren handelt.
       \[

@@ -176,5 +176,64 @@
 
       \inputCodeBlock[title=Möller-Trumbore-Algorithmus]{code/moeller_trumbore_intersection.cc}
     % subsection strahl_dreieck_schnittpunkttest (end)
+
+    \subsection{Raytracing und Rendering} % (fold)
+    \label{sub:raytracing_und_rendering}
+      Durch eine Iteration über alle Dreiecke der Szene lassen sich für einen Strahl alle Schnittpunkte mit der Szene berechnen.
+      Für das eigentliche Raytracing reicht es jedoch den Schnittpunkt zu finden, der dem Ursprung des Strahls am nächsten ist.
+      Aus diesem Grund wird bei der Iteration über alle Dreiecke mithilfe des Strahlparameters $t$ getestet, welcher Schnittpunkt weiter entfernt ist.
+      Der folgende Quelltext implementiert dieses grundlegende Verfahren.
+
+      \inputCodeBlock[title = Naives Raytracing]{code/naive_ray_tracing.cc}
+
+      Um nun auch für den Benutzer ein Bild zu generieren, müssen durch Verwendung der bereits implementierten Kamera sogenannte Primärstrahlen für jeden Pixel des virtuellen Bildschirms erzeugt werden.
+      Diese haben ihren Ursprung an der Position der Kamera.
+      Die Richtungen können leicht durch die Verwendung der affinen Basis und der Pixelgröße aus Abschnitt \ref{sub:aufbau_der_kamera} berechnet werden.
+      Mit der zuvor beschriebenen Routine \texttt{trace} werden nun die Schnittpunkte, sofern sie vorhanden sind, bestimmt.
+      Die erhaltenen Informationen werden dann in Pixelpuffer hineingeschrieben und durch \textit{OpenGL} auf dem Bildschirm ausgegeben.
+      Auch für dieses Verfahren sei als Beispiel der folgende Code gegeben.
+
+      \inputCodeBlock[title = Rendering]{code/naive_render_routine.cc}
+    % subsection raytracing_und_rendering (end)
+
+    \subsection{Ergebnisse} % (fold)
+    \label{sub:ergebnisse}
+      Die Ergebnisse der implementierten Methoden waren erfolgreich.
+      In Abbildung \ref{fig:naive-ray-tracing-results} sind drei der hier verwendeten Modelle gezeigt.
+      Jedes dieser Modelle besitzt im Vergleich zu anderen Szenen eine geringe Anzahl von Dreiecken.
+      Trotz allem dauerte die Generierung der Bilder mehrere Sekunden bis hin zu einigen Minuten, je nachdem welches Rechnersystem verwendet wurde.
+      Die Ergebnisse des naiven Algorithmus entsprachen demnach den Erwartungen.
+      Es ging vor allem um die grundlegenden Strukturen des Projekts, die robust und verständlich implementiert werden sollten.
+
+      \begin{figure}[h]
+        \center
+        \begin{subfigure}[b]{0.30\textwidth}
+          \center
+          \includegraphics[width=0.95\textwidth]{images/bevelled_cube.png}
+          \caption{%
+            \textit{Bevelled Cube}
+          }
+        \end{subfigure}
+        \begin{subfigure}[b]{0.30\textwidth}
+          \center
+          \includegraphics[width=0.95\textwidth]{images/asymmetric_suzanne.png}
+          \caption{%
+            \textit{Suzanne}
+          }
+        \end{subfigure}
+        \begin{subfigure}[b]{0.30\textwidth}
+          \center
+          \includegraphics[width=0.95\textwidth]{images/lego_car.png}
+          \caption{%
+            \textit{Lego Car}
+          }
+        \end{subfigure}
+        \caption{%
+          Die Abbildungen wurden mithilfe des hier entwickelten naiven Raytracers generiert.
+          Zu beachten ist, dass jedes der verwendeten Modelle durch vergleichsweise wenig Dreiecke beschrieben wird.
+        }
+        \label{fig:naive-ray-tracing-results}
+      \end{figure}
+    % subsection ergebnisse (end)
   % section naiver_algorithmus (end)
 \end{document}

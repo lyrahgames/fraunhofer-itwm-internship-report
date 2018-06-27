@@ -3,7 +3,7 @@
 
 \begin{document}
   \section{Grundlagen und der naive Algorithmus} % (fold)
-  \label{sub:basics}
+  \label{sec:basics}
     Abbildung \ref{fig:raytracing} stellt eine Skizze des grundsätzlichen Algorithmus dar.
     Für jeden Pixel des Pixelpuffers wird ein Strahl von der Kameraposition durch den Pixel in die Richtung des Bildschirms ausgesendet.
     Jeder dieser Strahlen wird dann mit der Szene auf Schnittpunkte getestet.
@@ -180,7 +180,7 @@
     \subsection{Raytracing und Rendering} % (fold)
     \label{sub:raytracing_und_rendering}
       Durch eine Iteration über alle Dreiecke der Szene lassen sich für einen Strahl alle Schnittpunkte mit der Szene berechnen.
-      Für das eigentliche Raytracing reicht es jedoch den Schnittpunkt zu finden, der dem Ursprung des Strahls am nächsten ist.
+      Für das eigentliche Raytracing reicht es jedoch, den Schnittpunkt zu finden, der dem Ursprung des Strahls am nächsten ist.
       Aus diesem Grund wird bei der Iteration über alle Dreiecke mithilfe des Strahlparameters $t$ getestet, welcher Schnittpunkt weiter entfernt ist.
       Der folgende Quelltext implementiert dieses grundlegende Verfahren.
 
@@ -190,7 +190,7 @@
       Diese haben ihren Ursprung an der Position der Kamera.
       Die Richtungen können leicht durch die Verwendung der affinen Basis und der Pixelgröße aus Abschnitt \ref{sub:aufbau_der_kamera} berechnet werden.
       Mit der zuvor beschriebenen Routine \texttt{trace} werden nun die Schnittpunkte, sofern sie vorhanden sind, bestimmt.
-      Die erhaltenen Informationen werden dann in Pixelpuffer hineingeschrieben und durch \textit{OpenGL} auf dem Bildschirm ausgegeben.
+      Die erhaltenen Informationen werden dann in den Pixelpuffer hineingeschrieben und durch \textit{OpenGL} auf dem Bildschirm ausgegeben.
       Auch für dieses Verfahren sei als Beispiel der folgende Code gegeben.
 
       \inputCodeBlock[title = Rendering]{code/naive_render_routine.cc}

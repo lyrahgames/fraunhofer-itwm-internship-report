@@ -2,9 +2,14 @@
 \usepackage{standard}
 
 \begin{document}
+  \thispagestyle{sectionstyle}
+  \pagenumbering{roman}
   \tableofcontents
   \cleardoublepage
 
+  \pagestyle{mainstyle}
+  \thispagestyle{sectionstyle}
+  \pagenumbering{arabic}
   \import{.}{introduction}
   \import{.}{tools}
   \import{.}{job_description}

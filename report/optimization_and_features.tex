@@ -21,7 +21,7 @@
       Sie unterteilen eine gegebene Szene in eine Hierarchie von disjunkten Mengen von Dreiecken.
       Abbildung \ref{fig:bvh-scheme} zeigt diese Methode anhand zweier Skizzen.
       Dreiecke werden in den Blättern der Hierarchie gespeichert, während sogenannte \textit{Bounding Boxes} die Knoten zwischen den Blättern füllen.
-      Ein Strahl traversiert den Baum indem in jedem Knoten, an welchem er vorbeikommt, einen Schnittpunkttest mit der \textit{Bounding Box} durchführt.
+      Ein Strahl traversiert den Baum, indem er in jedem Knoten, an welchem er vorbeikommt, einen Schnittpunkttest mit der \textit{Bounding Box} durchführt.
       Fällt der Test negativ aus, so wird der Knoten mit seinen Kindern verworfen.
       \begin{figure}[h]
         \center
@@ -118,7 +118,7 @@
         \end{subfigure}
         \caption{%
           Die Abbildungen zeigen vier Modell, welche durch den Raytracer gerendert wurden.
-          Aufgrund der extrem hohen Dreiecksanzahl war es erst durch die Verwendung einer Beschleunigungsstruktur, wie der LBVH, möglich diese Bilder in Echtzeit zu generieren.
+          Aufgrund der extrem hohen Dreiecksanzahl war es erst durch die Verwendung einer Beschleunigungsstruktur, wie der LBVH, möglich, diese Bilder in Echtzeit zu generieren.
         }
         \label{fig:lbvh-results}
       \end{figure}
@@ -127,11 +127,11 @@
 
     \subsection{Path Tracing} % (fold)
     \label{sub:path_tracing}
-      Da der Raytracer vor allem der Visualisierung dienen sollte, war es nötig den Lichttransport innerhalb einer Szene zu simulieren.
+      Da der Raytracer vor allem der Visualisierung dienen sollte, war es nötig, den Lichttransport innerhalb einer Szene zu simulieren.
       In der Theorie wird die Simulation von Lichtverteilungen durch die Rendergleichung (engl.: \textit{rendering equation} oder \textit{light transport equation}) beschrieben.
       Dabei handelt es sich um eine Fredholm-Integralgleichung 2.~Art für die Strahldichte der gesamten Szene.
       Sie kann mithilfe der Energieerhaltung und Theoremen der geometrischen Optik und Radiometrie hergeleitet werden.
-      Im Allgemeinen besitzt dieses Gleichung keine geschlossene Lösung.
+      Im Allgemeinen besitzt diese Gleichung keine geschlossene Lösung.
       Ihre Verwendung bedingt zudem die Implementierung von physikalischen Materialien, die Licht reflektieren, absorbieren und brechen.
       Die Materialien beschreiben dabei die genaue Interaktion von Lichtstrahlen mit den Oberflächen von Objekten durch bidirektionale Streuungsverteilungsfunktionen (BSDF, engl.: \textit{bidirectional scattering distribution function}).
 
@@ -139,7 +139,7 @@
       Sie stellt damit eine Verallgemeinerung der idealen Reflexion und Brechung an Oberflächen dar.
       Die Konstruktion komplexer Materialien erfolgte zumeist durch Bildung einer Linearkombination bereits bekannter und gut beschreibbarer BSDFs, wie der Lambertsch diffuse Strahler oder die \textit{Glossy Reflection}, sodass diese effizient durch die Speicherung von Koeffizienten implementiert werden konnten.
 
-      Für die numerische Lösung der Rendergleichung transformiert man diese in ihre Pfadintegral-Formulierung.
+      Für die numerische Lösung der Rendergleichung transformiert man diese zunächst in eine äquivalente Formulierung basierend auf Pfadintegralen.
       Die Integrale lassen sich nun durch Monte-Carlo Methoden erwartungstreu schätzen.
       Trifft ein Primärstrahl auf die Oberfläche, so wird durch die randomisierte \textit{Russian Roulette}-Methode entschieden, ob dieser Strahl reflektiert, absorbiert oder transmittiert wird.
       Auf der Basis dieser Entscheidung wird eine neuer zufälliger Strahl auf der entsprechenden Hemisphäre generiert, der wiederum den kompletten \textit{Path Tracing}-Prozess durchläuft.
@@ -149,10 +149,10 @@
       Je nach Beleuchtung und Aufbau einer Szene konvergiert der Algorithmus unterschiedlich schnell.
       Vor allem im Inneren von Objekten muss eine enorm lange Zeit vergehen, bis ein akzeptables Ergebnis zu sehen ist.
       Es konnte leider nicht gemessen werden, ob die simulierten Ergebnisse auch der Wirklichkeit entsprachen.
-      Dennoch schienen die Bilder für das menschliche Auge durchaus realistische und nicht Computer generiert.
+      Dennoch erschienen die Bilder für das menschliche Auge durchaus realistisch und nicht Computer generiert.
       \begin{figure}[h]
         \center
-        \begin{subfigure}[b]{0.614\textwidth}
+        \begin{subfigure}[b]{0.613\textwidth}
           \center
           \includegraphics[width=0.95\textwidth]{images/path_tracing-audi_r8.png}
           \caption{\textit{Audi R8}}
@@ -208,17 +208,17 @@
       Aus diesem Grund werden häufig mehrere Varianten eines Algorithmus implementiert, um eine maximale Portabilität zu erreichen.
 
       Im Projekt konzentrierte ich mich auf den Kernel des Raytracers.
-      Jeder Strahl muss die BVH traversieren um einen Schnittpunkt zu ermitteln.
-      Anstatt innerhalb eines Threads die Strahlen sequentiell zu testen, kann man dazu übergehen, mehrere Strahlen in einem Strahlenpaket durch mehrere Vektorregister zu speichern.
+      Jeder Strahl musste die BVH traversieren um einen Schnittpunkt zu ermitteln.
+      Anstatt innerhalb eines Threads die Strahlen sequentiell zu testen, bin ich dazu übergegangen, mehrere Strahlen in einem Strahlenpaket durch mehrere Vektorregister zu speichern.
       Diese Neustrukturierung geht davon aus, dass alle Strahlen, die in diesem Paket vorkommen, kohärent sind, beziehungsweise einen ähnlichen Strahlenverlauf aufweisen.
       Diese Annahme ist zumindest für Primärstrahlen, die von der Kamera ausgesendet werden, bis zu einem gewissen Grade erfüllt.
-      Bei der eigentlichen Traversierung wird das Strahlenpaket wie ein einziger Strahl behandelt und auf Schnittpunkte mit den einzelnen AABB der Knoten getestet.
-      Ein Knoten und dessen Kinder werden jedoch nur verworfen, falls keiner der Strahlen im Paket die zugehörige AABB schneidet.
-      Sind die Strahlen, wie vorher angenommen, kohärent, so lassen sich die Schnittpunkte der Strahlen eines Pakets genauso so schnell wie der Schnittpunkt eines einzelnen Strahls berechnen.
-      Sollten die Strahlen allerdings eine starke Divergenz aufweisen, so wird die Effizienz des Verfahrens reduziert, da mehr Äste der BVH traversiert werden müssen.
+      Bei der eigentlichen Traversierung wurde das Strahlenpaket wie ein einziger Strahl behandelt und auf Schnittpunkte mit den einzelnen AABB der Knoten getestet.
+      Ein Knoten und dessen Kinder wurden jedoch nur verworfen, falls keiner der Strahlen im Paket die zugehörige AABB schnitt.
+      Waren die Strahlen, wie zuvor angenommen, kohärent, so ließen sich die Schnittpunkte der Strahlen eines Pakets genauso so schnell wie der Schnittpunkt eines einzelnen Strahls berechnen.
+      Wiesen die Strahlen allerdings eine starke Divergenz auf, so reduzierte sich die Effizienz des Verfahrens erheblich, da mehr Äste der BVH traversiert werden mussten.
 
       Die Ergebnisse dieser Implementierung zeigten eine drei- bis fünfzehnfache Steigerung der Performance für die Berechnung von Primärstrahlen.
-      Sekundärstrahlen, welche zum Beispiele durch die Reflexion an Oberflächen entstehen, ließen die \textit{Frame Rate} einbrechen.
+      Sekundärstrahlen, welche zum Beispiele durch die Reflexion an Oberflächen entstanden, ließen die \textit{Frame Rate} einbrechen.
       In extremen Fällen konnte sogar festgestellt werden, dass die automatische Optimierung des Compilers bessere Ergebnisse lieferte.
     % subsection optimierungen_auf_cpu (end)
   % section beschleunigungsstrukturen_optimierung_und_weitere_features (end)

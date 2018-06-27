@@ -11,6 +11,9 @@
 
 !*.tex
 
+
+!instructions/*.pdf
+
 !README.md
 !main.pdf
 

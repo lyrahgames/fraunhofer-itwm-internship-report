@@ -12,6 +12,7 @@
 !*.tex
 
 !README.md
+!main.pdf
 
 !.gitignore
 !.gitmodules

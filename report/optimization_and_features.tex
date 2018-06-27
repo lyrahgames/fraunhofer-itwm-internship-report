@@ -180,35 +180,46 @@
         }
         \label{fig:path-tracing-results}
       \end{figure}
-
-
-      \subsubsection{Quasi-Monte-Carlo-Methoden} % (fold)
-      \label{ssub:monte_carlo_methoden}
-
-      % subsubsection monte_carlo_methoden (end)
-
-      \subsubsection{Light Caching} % (fold)
-      \label{ssub:light_caching}
-
-      % subsubsection light_caching (end)
-
-      \subsubsection{Reflexions- und Brechungsmodelle} % (fold)
-      \label{ssub:reflexions_und_brechungsmodelle}
-
-      % subsubsection reflexions_und_brechungsmodelle (end)
     % subsection path_tracing (end)
 
-    \subsection{Optimierungen auf CPU} % (fold)
+    \subsection{Optimierungen auf der CPU} % (fold)
     \label{sub:optimierungen_auf_cpu}
-      \subsubsection{Threadpools, OpenMP, mctp} % (fold)
-      \label{ssub:threadpools}
+      Neben Features und Beschleunigungsstrukturen gab es auch Hardware-basierte Verfahren zur Optimierung des Quellcodes.
+      Innerhalb der Arbeitsgruppe habe ich mich mit \textit{Cache Coherency} und der Parallelisierung auseinandergesetzt.
+      Grundsätzlich gibt es mehrere Formen der Parallelisierung.
+      Für das Projekt beschäftigte ich mich vor allem mit SIMD (engl.: \textit{single input multiple data}) und MIMD (engl.: \textit{multiple input multiple data}) beziehungsweise \textit{Thread-Level-Parallelism}.
+      Begründet war dies durch die Tatsache das der Compiler bereits automatisch einen großen Teil des Quelltexts effizient optimierte.
 
-      % subsubsection threadpools (end)
+      Durch die Funktionsweise des Rendering-Verfahrens stellte die Implementierung von Thread-Parallelismus kein Problem dar.
+      Für jeden Pixel des Pixelpuffers mussten mehrere hundert Strahlen durch \textit{Path Tracing} unabhängig voneinander ausgewertet werden.
+      Gerade die Unabhängigkeit der verschiedenen Pixel ermöglichte es mir, den Pixelpuffer in mehrere Pixelblöcke einzuteilen und diese dann den Threads des Computers zuzuweisen.
+      Da unterschiedliche Pixelblöcke je nach Szene und Beleuchtung auch unterschiedlich lange berechnet wurden, verwendete ich eine dynamische Zuweisung der Pixelblöcke zu den Threads (siehe \textit{load balancing}).
+      Dieses Verfahren wurde sowohl durch \textit{OpenMP} als auch durch eine vom ITWM entwickelte Thread-Bibliothek \textit{MCTP} umgesetzt.
 
-      \subsubsection{SIMD intrinsics} % (fold)
-      \label{ssub:simd_intrinsics}
+      Die Ergebnisse dieser Implementierung entsprachen voll und ganz den Erwartungen.
+      Die Geschwindigkeit der Bildgenerierung konnte um die Anzahl der Cores der CPU eines Computers vervielfacht werden.
 
-      % subsubsection simd_intrinsics (end)
+      Die manuelle Parallelisierung durch SIMD ist prinzipiell nur durch spezielle Bibliotheken, wie \textit{OpenMP}, oder durch das Einbinden der sogenannten \textit{Intrinsics}, wie den \textit{Streaming SIMD Extensions} (SSE) oder den \textit{Advanced Vector Extensions} (AVX),  möglich.
+      Sie erlauben es dem Entwickler im Quelltext auf die Vektorregister der CPU zuzugreifen.
+      Je nach Baujahr eines Computers passen in diese Register vier bis sechzehn Gleitkommazahlen einfacher Genauigkeit hinein.
+      Demnach bedeutet eine effiziente Nutzung dieser Register eine vier- bis sechzehnfache Steigerung der Performance.
+      Die manuelle Verwendung dieser \textit{Intrinsics} geht jedoch mit einer starken Hardwarebindung einher.
+      Code der durch AVX optimiert wurde, lässt sich nur auf Computern, die ebenfalls AVX kennen, ausführen.
+      Aus diesem Grund werden häufig mehrere Varianten eines Algorithmus implementiert, um eine maximale Portabilität zu erreichen.
+
+      Im Projekt konzentrierte ich mich auf den Kernel des Raytracers.
+      Jeder Strahl muss die BVH traversieren um einen Schnittpunkt zu ermitteln.
+      Anstatt innerhalb eines Threads die Strahlen sequentiell zu testen, kann man dazu übergehen, mehrere Strahlen in einem Strahlenpaket durch mehrere Vektorregister zu speichern.
+      Diese Neustrukturierung geht davon aus, dass alle Strahlen, die in diesem Paket vorkommen, kohärent sind, beziehungsweise einen ähnlichen Strahlenverlauf aufweisen.
+      Diese Annahme ist zumindest für Primärstrahlen, die von der Kamera ausgesendet werden, bis zu einem gewissen Grade erfüllt.
+      Bei der eigentlichen Traversierung wird das Strahlenpaket wie ein einziger Strahl behandelt und auf Schnittpunkte mit den einzelnen AABB der Knoten getestet.
+      Ein Knoten und dessen Kinder werden jedoch nur verworfen, falls keiner der Strahlen im Paket die zugehörige AABB schneidet.
+      Sind die Strahlen, wie vorher angenommen, kohärent, so lassen sich die Schnittpunkte der Strahlen eines Pakets genauso so schnell wie der Schnittpunkt eines einzelnen Strahls berechnen.
+      Sollten die Strahlen allerdings eine starke Divergenz aufweisen, so wird die Effizienz des Verfahrens reduziert, da mehr Äste der BVH traversiert werden müssen.
+
+      Die Ergebnisse dieser Implementierung zeigten eine drei- bis fünfzehnfache Steigerung der Performance für die Berechnung von Primärstrahlen.
+      Sekundärstrahlen, welche zum Beispiele durch die Reflexion an Oberflächen entstehen, ließen die \textit{Frame Rate} einbrechen.
+      In extremen Fällen konnte sogar festgestellt werden, dass die automatische Optimierung des Compilers bessere Ergebnisse lieferte.
     % subsection optimierungen_auf_cpu (end)
   % section beschleunigungsstrukturen_optimierung_und_weitere_features (end)
 \end{document}
